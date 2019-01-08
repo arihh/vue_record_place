@@ -1,17 +1,19 @@
 <template>
   <div id="app" class="container">
-    <Place/>
+    <List :items="places"/>
   </div>
 </template>
 
 <script>
-import Place from "./components/Place.vue";
+import store from "./store";
+import List from "./components/List.vue";
 
 export default {
   name: "app",
   components: {
-    Place
-  }
+    List
+  },
+  data: () => store.state
 };
 </script>
 
