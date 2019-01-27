@@ -17,6 +17,7 @@
           <td>{{ item.comment }}</td>
         </tr>
       </tbody>
+      <button @click="loadPlaces">aaa</button>
     </table>
   </div>
 </template>
@@ -24,7 +25,22 @@
 <script>
 export default {
   name: "List",
-  props: ["items"]
+  props: ["items"],
+  methods: {
+    loadPlaces: function(e, index) {
+      axios.get("http://localhost:3000/place_records.json").then(res => {
+        console.log(res.data);
+        this.items = res.data.map(function(element) {
+          return {
+            created_at: element.created_at,
+            lat: element.lat,
+            lon: element.lon,
+            comment: element.comment
+          };
+        });
+      });
+    }
+  }
 };
 </script>
 
