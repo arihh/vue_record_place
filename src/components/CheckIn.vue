@@ -1,16 +1,25 @@
 <template>
-  <div>
-    <div>
-      <label>緯度</label>
-      <input type="text" v-model="lat">
-      <label>経度</label>
-      <input type="text" v-model="lon">
+  <div class="containers">
+    <div class="nes-container is-dark with-title">
+      <p class="title">Check In</p>
+      <div style="text-align: left;">
+        <i class="nes-icon trophy is-small"></i>
+        <label>Lat</label>
+        <input type="text" v-model="lat" class="input-text">
+        <i class="nes-icon trophy is-small"></i>
+        <label>Lon</label>
+        <input type="text" v-model="lon" class="input-text">
+      </div>
+      <div style="text-align: left;">
+        <label>Comment</label>
+      </div>
+      <div style="text-align: left;">
+        <input type="text" v-model="comment">
+      </div>
+      <div style="text-align: right;">
+        <button @click="checkIn" class="checkin nes-btn">CheckIn</button>
+      </div>
     </div>
-    <div>
-      <label>コメント</label>
-      <input type="text" v-model="comment">
-    </div>
-    <button @click="checkIn" class="checkin btn btn-primary">チェックイン!</button>
   </div>
 </template>
 
@@ -27,13 +36,13 @@ export default {
   methods: {
     checkIn: function(e) {
       if (!navigator.geolocation) {
-        alert("位置情報が取れません");
+        alert("disable geolocation.");
         return;
       }
       navigator.geolocation.getCurrentPosition(
         position => {
           console.log(
-            "取得:" + position.coords.latitude + "," + position.coords.longitude
+            "get:" + position.coords.latitude + "," + position.coords.longitude
           );
           this.lat = position.coords.latitude;
           this.lon = position.coords.longitude;
@@ -54,22 +63,22 @@ export default {
               }
             )
             .then(res => {
-              //リクエスト成功時の処理
+              // ここでリスト更新したい
             });
         },
         error => {
           switch (error.code) {
-            case 1: //PERMISSION_DENIED
-              alert("位置情報の利用が許可されていません");
+            case 1:
+              alert("Permission denided");
               break;
-            case 2: //POSITION_UNAVAILABLE
-              alert("現在位置が取得できませんでした");
+            case 2:
+              alert("Position unavailable");
               break;
-            case 3: //TIMEOUT
-              alert("タイムアウトになりました");
+            case 3:
+              alert("Timeout");
               break;
             default:
-              alert("その他のエラー(エラーコード:" + error.code + ")");
+              alert("error:(" + error.code + ")");
               break;
           }
         }
@@ -80,4 +89,10 @@ export default {
 </script>
 
 <style>
+.containers {
+  margin: 5px;
+}
+.input-text {
+  width: 120px;
+}
 </style>

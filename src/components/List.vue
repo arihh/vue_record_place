@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <table class="table">
+  <div class="containers">
+    <table class="table nes-table is-bordered is-dark">
       <thead>
         <tr>
-          <th>時間</th>
-          <th>緯度</th>
-          <th>経度</th>
-          <th>コメント</th>
+          <th>Time</th>
+          <th>Lat</th>
+          <th>Lon</th>
+          <th>Comment</th>
         </tr>
       </thead>
       <tbody>
@@ -17,12 +17,13 @@
           <td>{{ item.comment }}</td>
         </tr>
       </tbody>
-      <button @click="loadPlaces">aaa</button>
     </table>
   </div>
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   name: "List",
   props: ["items"],
@@ -30,9 +31,12 @@ export default {
     loadPlaces: function(e, index) {
       axios.get("http://localhost:3000/place_records.json").then(res => {
         console.log(res.data);
+        moment.lang("ja");
         this.items = res.data.map(function(element) {
           return {
-            created_at: element.created_at,
+            created_at: moment(element.created_at).format(
+              "YYYY/MM/DD HH:mm:ss"
+            ),
             lat: element.lat,
             lon: element.lon,
             comment: element.comment
@@ -40,9 +44,18 @@ export default {
         });
       });
     }
+  },
+  mounted() {
+    this.loadPlaces();
   }
 };
 </script>
 
 <style>
+.containers {
+  margin: 5px;
+}
+.table {
+  width: 100%;
+}
 </style>
