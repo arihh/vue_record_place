@@ -11,7 +11,7 @@
       </thead>
       <tbody>
         <tr v-for="(item, index) in items" :key="index">
-          <td>{{item.created_at }}</td>
+          <td>{{ item.created_at }}</td>
           <td>{{ item.lat }}</td>
           <td>{{ item.lon }}</td>
           <td>{{ item.comment }}</td>
